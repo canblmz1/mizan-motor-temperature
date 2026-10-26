@@ -1,0 +1,13 @@
+{
+  "original_run_python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+  "versions": {
+    "numpy": "2.1.3",
+    "scipy": "1.16.3",
+    "sklearn": "1.6.1",
+    "joblib": "1.6.0",
+    "psutil": "5.9.5"
+  },
+  "source_commit": "0571110bb20fcfbdad88d91a04b04428a48536c3",
+  "description": "Observed original successful CPU-run versions, not a newly validated release environment.",
+  "MLP_uniform_weight_compatibility": true
+}

@@ -1,0 +1,17 @@
+MIZAN Motor Temperature
+Copyright 2026 canblmz1
+
+This repository is an independently implemented engineering benchmark using
+established thermal-history and supervised-regression methods.
+
+Dataset attribution:
+Wilhelm Kirchgässner, Oliver Wallscheid, Joachim Böcker.
+Electric Motor Temperature, version 3, Kaggle.
+DOI: 10.34740/KAGGLE/DSV/2161054
+License: CC BY-SA 4.0. See DATA_LICENSE.md.
+
+Method references include Thermal Neural Networks
+(10.1016/j.engappai.2022.105537) and EWMA-based motor thermal modeling
+(10.1109/ISIE.2019.8781195). No author endorsement or new-algorithm claim
+is implied. The inference implementation was extracted from the MIZAN
+motor experiment and packaged with explicit input/session validation.

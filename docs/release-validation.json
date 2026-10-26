@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "package_version": "0.1.0",
+  "python_version": "3.12.10",
+  "contract_tests_passed": 16,
+  "tested_as": "Offline-installed pure-Python wheel in a fresh virtualenv with no third-party runtime dependencies",
+  "cli_regression_rows": 36,
+  "cli_maximum_frozen_prediction_difference_C": 4.957864732091366e-07,
+  "api_regression_models": [
+    "p17",
+    "p06"
+  ],
+  "api_regression_rows_per_model": 36,
+  "api_maximum_frozen_prediction_difference_C": {
+    "p17": 4.957864732091366e-07,
+    "p06": 4.5865324693750154e-07
+  },
+  "frozen_artifact_digests_checked": 9,
+  "recorded_prediction_rows_reaggregated": 63904,
+  "new_training": false,
+  "new_independent_accuracy_experiment": false,
+  "reference_training_reexecuted": false,
+  "wheel_SHA256": "971c9467e462d9029547a3a139c7d44e027f3d4d469318152a19f9158349e871"
+}

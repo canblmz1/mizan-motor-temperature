@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, cite the dataset and method references in addition to this repository."
+type: software
+title: "MIZAN Motor Temperature"
+authors:
+  - name: "canblmz1"
+version: 0.1.0
+date-released: 2026-10-26
+url: "https://github.com/canblmz1/mizan-motor-temperature"
+license: Apache-2.0
+abstract: "Causal PMSM magnet-temperature inference with frozen weights, classical controls, and recorded benchmark evidence. Data-derived artifacts have separate CC BY-SA 4.0 terms."

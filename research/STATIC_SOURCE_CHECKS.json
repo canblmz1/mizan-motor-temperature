@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "static_learning_modules_unchanged": [
+    "learn.py",
+    "fast_svr.py"
+  ],
+  "static_feature_history_and_selection_math_unchanged": true,
+  "unchanged_protocol_sections": [
+    "inputs",
+    "excluded_inputs",
+    "information_rule",
+    "splits",
+    "population",
+    "features",
+    "sampling",
+    "classical",
+    "neural",
+    "selection",
+    "metrics",
+    "working_model_gate",
+    "neural_advantage_gate",
+    "prior_art"
+  ],
+  "profile_inventory_byte_identical": true,
+  "reference_training_reexecuted": false
+}

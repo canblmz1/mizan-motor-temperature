@@ -1,0 +1,6 @@
+* text=auto eol=lf
+models/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+assets/*.png -text
+results/*.gz -text
+results/all-methods.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+research/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,180 @@
+{
+  "study": "MIZAN computer-only measured rotor-temperature estimator with causal history and whole-profile holdouts",
+  "scope": "Build and execute a useful measured-data estimator, not manufacture neural novelty. Preserve all previous results. The 46 Ah heating-fault study failed its accuracy target; do not silently call a different target a successful hidden-peak experiment.",
+  "dataset": {
+    "ref": "wkirgsn/electric-motor-temperature",
+    "version": 3,
+    "doi": "10.34740/KAGGLE/DSV/2161054",
+    "license": "CC-BY-SA-4.0",
+    "csv": "measures_v2.csv",
+    "csv_bytes": 300061411,
+    "sample_period_seconds": 0.5,
+    "original_archive_sha256": "10e49e6220fa3c8a9d22c8bab8280ffe2d5e1e3380a6a18bcfc64ea2e8b56b92",
+    "csv_sha256": "78f3d150f0f2ad9c5dc7ff24dd12c00d386ad530f48c1589ad24fcd88867d3ad",
+    "input_transport": "User-supplied ZIP containing the pinned CSV; no downloader"
+  },
+  "exposure_at_registration": "Publisher metadata/header and author example notebook read; archive downloaded by streaming and ZIP CRC checked. No numeric measurement values, plots or model scores read from this dataset. Byte decompression and CSV strings are not claimed secret. Published literature already reports performance on these benchmark profiles; this is not a new blind dataset or independent motor test.",
+  "target": "pm, published rotor/permanent-magnet temperature channel. Recorded point/channel temperature only; physical sensing details and global maximum interpretation are not invented. Manufacturer decision threshold UNKNOWN. No safety certification.",
+  "inputs": [
+    "ambient",
+    "coolant",
+    "u_d",
+    "u_q",
+    "i_d",
+    "i_q",
+    "motor_speed"
+  ],
+  "excluded_inputs": [
+    "pm at every time including initial state and all lags",
+    "stator_winding",
+    "stator_tooth",
+    "stator_yoke",
+    "torque",
+    "profile_id",
+    "row ordinal/absolute elapsed time as predictor",
+    "future measurements"
+  ],
+  "information_rule": "Every family has the same seven channels and their causal histories. All training source measurements are available equally; ML fitting uses the same deterministic source indices. A separate constant-coefficient RC observer may use source-only temperature derivatives to identify its physical rates and must report that different fitting recipe. No held-out target is used to initialize or normalize any estimator. RC initialization uses a training-only instantaneous regressor.",
+  "splits": {
+    "test_profiles": [
+      60,
+      62,
+      74
+    ],
+    "validation_profiles": [
+      4,
+      11,
+      32
+    ],
+    "training_profiles": "all remaining profile IDs",
+    "test_choice": "author thermal-nn example benchmark; IDs fixed before numerical inspection",
+    "profile_count_rule": "Verify every declared ID exists; otherwise stop and amend before target values are opened."
+  },
+  "population": "Sessions of one PMSM/test bench; repeated profiles are not independent motors, vehicles or deployments. Generalization claim only held-out measured operating sessions of this bench. No frame-IID bootstrap or population-confidence claim.",
+  "streaming": "First pass only profile IDs/counts; second pass parses input and target numbers only for training/validation. Test numeric channels/targets stay unopened until model freeze. Generate input histories at native 2 Hz; no all-CSV pandas load. A profile has independent filter state even if records are interleaved. An unreported sampling dropout cannot be established because the deposited CSV has no time vector.",
+  "features": {
+    "base": "15 declared quantities: seven scaled available channels, squared current magnitude, squared voltage magnitude, electrical dot product u.i, absolute speed, squared speed, u_q/speed and u_d/speed with a predeclared |speed|>=100 rpm guard, and rotation indicator",
+    "causal_EWMA_tau_s": [
+      10,
+      60,
+      300,
+      900,
+      1800
+    ],
+    "EWMA_initialization": "first available input value of that profile; no initial hidden temperature",
+    "additional_std": "causal exponential standard deviations for i_d,i_q,u_d,u_q,speed at 60,300,900 s",
+    "scalers": "global mean/std fitted only on selected training rows, never validation/test extrema or per-profile target statistics"
+  },
+  "sampling": {
+    "fit": "At most 256 equally spaced native row indices per training profile, chosen by count/index only, no target-dependent sampling",
+    "validation_and_test": "every deposited native row, no warmup exclusion or target-temperature subset",
+    "training_weight": "equal total weight per profile; all families use identical fitting rows except the separately declared RC identification recipe"
+  },
+  "classical": {
+    "instantaneous_ridge_alpha": [
+      0.1,
+      10,
+      1000
+    ],
+    "EWMA_ridge_alpha": [
+      0.1,
+      10,
+      1000
+    ],
+    "HGB": {
+      "views": [
+        "anchor",
+        "ridge_residual"
+      ],
+      "max_leaf_nodes": [
+        15,
+        31
+      ],
+      "max_iter": 250,
+      "learning_rate": 0.07,
+      "max_bins": 64,
+      "l2": 10
+    },
+    "ExtraTrees": {
+      "views": [
+        "anchor",
+        "ridge_residual"
+      ],
+      "trees": 120,
+      "max_leaf_nodes": 512,
+      "min_samples_leaf": 5,
+      "n_jobs": 1
+    },
+    "SVR": {
+      "views": [
+        "anchor",
+        "ridge_residual"
+      ],
+      "C": 10,
+      "gamma": "scale",
+      "epsilon_C": 0.2,
+      "cache_mib": 24
+    },
+    "references": [
+      "current coolant",
+      "training weighted constant gap over coolant"
+    ],
+    "RC": "nonnegative constant heat/cooling rates driven by current magnitude squared and absolute/squared speed, fitted on source-only increments, causally rolled out using own predicted state; no physical C/R identifiability claim from products alone"
+  },
+  "neural": {
+    "views": [
+      "anchor",
+      "ridge_residual"
+    ],
+    "architectures": [
+      [
+        64,
+        32
+      ],
+      [
+        128,
+        64
+      ]
+    ],
+    "activation": "relu",
+    "seeds": [
+      1729,
+      2718
+    ],
+    "solver": "Adam via partial_fit; training rows only, no random validation_fraction",
+    "maximum_epochs": 100,
+    "minimum_epochs": 10,
+    "patience": 15,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "alpha": 0.01,
+    "checkpoint_rule": "Lowest equal-profile validation MAE of the two fixed-seed ensemble, ties earliest epoch; restore every seed's actual weights at that common epoch. No seed cherry-picking.",
+    "anchor": "pm-coolant; ridge_residual view uses the same source-only EWMA ridge base made available to every nonlinear classical family"
+  },
+  "selection": "Select one final model/family and each family's hyperparameters by equal-profile MAE on the three entire validation profiles, then lower worst underestimation, then declared order. Keep validation profiles out of all parameter fitting. Freeze selected checkpoints, all family controls, scalers, source/validation predictions and file hashes before test numerical parsing. No target-side refitting, initial hidden temperature or parameter changes after test.",
+  "metrics": [
+    "per-profile and equal-profile MAE C",
+    "RMSE C",
+    "95th absolute error C",
+    "maximum absolute error C",
+    "maximum underestimation C",
+    "full-frame coverage"
+  ],
+  "working_model_gate": "Source-selected final model must have equal-profile test MAE<=3 C, each profile MAE<=4 C, each profile 95th absolute error<=8 C, max absolute error<=20 C and 100% coverage. These are predeclared demonstration accuracy targets, not a manufacturer safety margin.",
+  "neural_advantage_gate": "At least 10% lower equal-profile MAE than validation-selected strongest classical same-input model, no individual profile >10% worse, no worse maximum underestimation, same complete coverage; also publish comparison to every separately frozen family. Accuracy alone does not establish algorithm novelty or superiority to unreplicated published TNNs.",
+  "prior_art": "EWMA thermal modeling (10.1109/ISIE.2019.8781195), deep residual motor temperature estimation (10.1109/TPEL.2020.3045596), supervised PMSM benchmark (10.1109/TEC.2021.3052546), and TNN (10.1016/j.engappai.2022.105537). This is an independent implementation/controlled replication, not invention of these ideas. Author example initializes from true hidden target and scales with all-data extrema; this pipeline explicitly does neither, so no direct published-score parity/SOTA claim.",
+  "resources": {
+    "CPU_threads": 2,
+    "process_RSS_mib": 2048,
+    "minimum_available_ram_mib": 1024,
+    "source_training_max_seconds": 2400,
+    "test_max_seconds": 300,
+    "guard": "sampled and cooperative; not an OS memory/time sandbox",
+    "GPU": false,
+    "automatic_cloud_execution": false
+  },
+  "bounded_continuation": "Complete the registered classical and neural comparison and diagnose failures. Do not tune to the held-out profile scores or stop after a favorable seed. No claim that a breakthrough or an accuracy target can be guaranteed.",
+  "preserve": {
+    "original_scientific_results": "unchanged; this is a portable reference packaging, not a new executed experiment"
+  }
+}

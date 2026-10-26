@@ -1,0 +1,89 @@
+{
+  "source_dataset": {
+    "title": "Electric Motor Temperature",
+    "authors": [
+      "Wilhelm Kirchgassner",
+      "Oliver Wallscheid",
+      "Joachim Bocker"
+    ],
+    "dataset_url": "https://www.kaggle.com/datasets/wkirgsn/electric-motor-temperature",
+    "doi": "10.34740/KAGGLE/DSV/2161054",
+    "version": 3,
+    "license": "CC-BY-SA-4.0",
+    "source_csv_bytes": 300061411,
+    "source_archive_SHA256": "10e49e6220fa3c8a9d22c8bab8280ffe2d5e1e3380a6a18bcfc64ea2e8b56b92"
+  },
+  "original_experiment": {
+    "date": "2026-10-20",
+    "source_commit": "0571110bb20fcfbdad88d91a04b04428a48536c3",
+    "test_profiles": [
+      60,
+      62,
+      74
+    ],
+    "validation_profiles": [
+      4,
+      11,
+      32
+    ],
+    "training_profiles": "63 remaining sessions",
+    "test_rows": 63904,
+    "physical_scope": "One PMSM and test bench; sessions are not separate motors"
+  },
+  "release": {
+    "retrained": false,
+    "raw_dataset_included": false,
+    "sample_selection": "First 12 consecutive rows of each previously evaluated test session, selected by index not error",
+    "sample_rows": 36,
+    "reference_parser": "Original dataset parser stored the reference channel as float32; the published regression CSV is rounded to six decimals",
+    "expected_prediction_decimal_precision": 6,
+    "sample_purpose": "Software agreement only, not a new accuracy assessment"
+  },
+  "frozen_files": [
+    {
+      "path": "models/p04.json",
+      "bytes": 8726,
+      "SHA256": "bff52853591afe6ef60e205095626aada7054b73b4cf4bb8edd2f376bb173a36"
+    },
+    {
+      "path": "models/p06.json",
+      "bytes": 10904,
+      "SHA256": "84bb570eee804217083874d4d0841ac316609b8add68164c967f5aa671bb6fb6"
+    },
+    {
+      "path": "models/p17.json",
+      "bytes": 1497851,
+      "SHA256": "b6caf05744b5638185c2670989fa6e57a189d578153b179e9e36fcbbacbd7c63"
+    },
+    {
+      "path": "models/p20.json",
+      "bytes": 9314,
+      "SHA256": "e05a5b4165e8e926daeb949dd050f77a2d5da099ef848432a30a09ad2204eb2b"
+    },
+    {
+      "path": "assets/heldout-temperatures.png",
+      "bytes": 291244,
+      "SHA256": "3602784fa89a0ce6464826e135aea31627896c76238a6fef739e5767764ecfae"
+    },
+    {
+      "path": "results/all-methods.csv",
+      "bytes": 1638,
+      "SHA256": "f6c9136f1d1be740bf1bd057e4004be53306b13cbe2c807816a89b6b5da429dc"
+    },
+    {
+      "path": "results/predictions.csv.gz",
+      "bytes": 1071217,
+      "SHA256": "762e0e9047e733fabeebe054b7c3200dd6f05f42694a0929d502bc9e0c568e7d"
+    },
+    {
+      "path": "examples/telemetry.csv",
+      "bytes": 4880,
+      "SHA256": "f625c45dc6af0dfe531365c16ec330034e6589764205c08ca6eead5fa14ffc43"
+    },
+    {
+      "path": "examples/expected.csv",
+      "bytes": 1330,
+      "SHA256": "3c714731a6015147fe1bca21fa25ec7d5a956f6b5f95774202fda336aeb775ae"
+    }
+  ]
+}
